@@ -12,9 +12,14 @@ url="https://www.random.org/calendar-dates/?num="\
     "&thursdays=on&fridays=on&saturdays=on&sundays=on"\
     "&display=2&format=plain&rnd=new"
 
-response=requests.get(url)
+try:
+    response=requests.get(url)
+except:
+    response=False
 
 correct=0
+dayname=""
+
 
 def ask(x):
     date = datetime.datetime.strptime(x, "%Y-%m-%d")
@@ -22,7 +27,7 @@ def ask(x):
     dayname = calendar.day_name[date.weekday()]
     return answer.lower() == dayname.lower()
 
-if False:#response.ok:
+if response.ok and response:
     for i in response.iter_lines():
         if ask(i.decode("utf-8")):
             print('good job')
